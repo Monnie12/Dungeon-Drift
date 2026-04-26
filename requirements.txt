@@ -1,1 +1,2 @@
-# Placeholder - please provide requirements.txt content
+pygame>=2.5
+aiohttp>=3.10
