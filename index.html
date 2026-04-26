@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Dungeon Maze Online</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <canvas id="gameCanvas" width="1280" height="820"></canvas>
+
+    <section class="panel connect-panel" id="connectPanel">
+      <div class="panel-inner">
+        <p class="eyebrow">Cross-Platform Party Crawl</p>
+        <h1>Dungeon Maze Online</h1>
+        <p class="intro">Create a friend room or join one from your desktop browser or phone.</p>
+
+        <div class="field-grid">
+          <label>
+            <span>Name</span>
+            <input id="nameInput" type="text" maxlength="18" value="Adventurer" autocomplete="nickname">
+          </label>
+          <label>
+            <span>Host</span>
+            <input id="hostInput" type="text" value="shortline.proxy.rlwy.net" autocomplete="off">
+          </label>
+          <label>
+            <span>Port</span>
+            <input id="portInput" type="number" min="1" max="65535" value="55839">
+          </label>
+          <label>
+            <span>Room Name</span>
+            <input id="roomNameInput" type="text" maxlength="32" value="" autocomplete="off">
+          </label>
+          <label>
+            <span>Room Code</span>
+            <input id="roomCodeInput" type="text" maxlength="6" value="" autocomplete="off">
+          </label>
+        </div>
+
+        <div class="color-picker">
+          <span>Color</span>
+          <div class="color-preview-row">
+            <div class="color-preview" id="colorPreview"></div>
+            <div class="color-preview-card">
+              <div class="color-preview-player" id="colorPreviewPlayer"></div>
+              <div class="color-preview-name" id="colorPreviewName">Adventurer</div>
+            </div>
+          </div>
+          <div class="color-swatches" id="colorSwatches"></div>
+        </div>
+
+        <div class="actions">
+          <button id="playPublicButton" type="button">Play Public Room</button>
+          <button id="joinButton" type="button">Create / Join Room</button>
+        </div>
+        <p class="status" id="connectStatus">Use the public room or enter 127.0.0.1 to create your own friend room.</p>
+      </div>
+    </section>
+
+    <section class="panel hud-panel">
+      <div class="hud-top">
+        <div>
+          <p class="label">Phase</p>
+          <p class="value" id="phaseValue">Lobby</p>
+        </div>
+        <div>
+          <p class="label">Round</p>
+          <p class="value" id="roundValue">0</p>
+        </div>
+        <div>
+          <p class="label">Escapes</p>
+          <p class="value" id="escapesValue">0</p>
+        </div>
+        <div>
+          <p class="label">Timer</p>
+          <p class="value" id="timerValue">--</p>
+        </div>
+      </div>
+      <p class="message" id="statusMessage">Connecting...</p>
+      <p class="stats" id="statsMessage">HP -- | Gold -- | Potions -- | Weapon --</p>
+    </section>
+
+    <section class="panel scoreboard-panel">
+      <h2>Party</h2>
+      <div id="partyList" class="party-list"></div>
+    </section>
+
+    <section class="panel inventory-panel hidden" id="inventoryPanel">
+      <div class="inventory-header">
+        <h2>Inventory</h2>
+        <button id="closeInventoryButton" type="button">Close</button>
+      </div>
+      <div id="inventoryContent" class="inventory-content"></div>
+    </section>
+
+    <section class="mobile-controls">
+      <div class="dpad">
+        <button class="control move" data-move="up">^</button>
+        <button class="control move" data-move="left"><</button>
+        <button class="control move" data-move="down">v</button>
+        <button class="control move" data-move="right">></button>
+      </div>
+      <div class="action-pad">
+        <button class="control action" data-action="attack">Atk</button>
+        <button class="control action" data-action="interact">Use</button>
+        <button class="control action" data-action="potion">Heal</button>
+        <button class="control action" data-action="inventory">Inv</button>
+        <button class="control action" data-action="weapon_prev"><</button>
+        <button class="control action" data-action="weapon_next">></button>
+      </div>
+    </section>
+  </div>
+
+  <script src="/assets/app.js" defer></script>
+</body>
+</html>

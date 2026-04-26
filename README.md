@@ -19,6 +19,12 @@ pip install -r requirements.txt
 
 ## Host From The Game
 
+Public Railway server:
+
+```text
+shortline.proxy.rlwy.net:55839
+```
+
 Host computer:
 
 ```bash
@@ -29,7 +35,8 @@ If no local server is already running, the game starts one inside the same app a
 The host can play immediately, and the game now tries to open the router automatically with UPnP for internet play.
 If UPnP works, the host gets a shareable public IP and port in-game.
 If UPnP is unavailable, friends on the same network can still join with the LAN IP and internet play still works with manual port forwarding.
-Players on the same LAN can also use the new `Find Servers` button from the join screen to discover hosts automatically.
+Players on the same LAN can also use the new `Find Rooms` button from the join screen to discover hosts automatically.
+Hosts can now set a `Server Name` and optional `Room Code` from the join screen so only invited friends can enter.
 
 Another computer:
 
@@ -46,7 +53,7 @@ If people are joining from outside your home network, the host still needs to:
 ## Run a dedicated server (optional)
 
 ```bash
-python server.py --host 0.0.0.0 --port 5000
+python server.py --host 0.0.0.0 --port 5000 --server-name "Friends Only" --password ABC123
 ```
 
 ## Deploy To Railway Without The CLI
@@ -61,6 +68,22 @@ If your Windows machine blocks `npm` or the Railway CLI, you can still deploy th
 
 This Docker setup deploys only the dedicated Python socket server, not the local desktop client.
 
+## Deploy The Public Browser Version
+
+To make the browser game something people can search for, open, and play directly, deploy a second web service using `Dockerfile.web`.
+
+1. Create another Railway service or project for the browser version.
+2. Point that service at `Dockerfile.web`.
+3. Set these environment variables in the web service:
+   - `PUBLIC_SERVER_HOST=shortline.proxy.rlwy.net`
+   - `PUBLIC_SERVER_PORT=55839`
+   - `PUBLIC_ROOM_NAME=Dungeon Drift Public`
+   - `PUBLIC_ROOM_CODE=` if you want the public room open, or a 6-character room code if you want it protected
+4. Give the web service a public domain.
+5. Share that website URL so people can open it and press `Play Public Room`.
+
+The browser web host serves `/config`, so the page can preload the public room automatically.
+
 ## Run in a Web Browser
 
 Install dependencies:
@@ -72,7 +95,7 @@ pip install -r requirements.txt
 Start the web app:
 
 ```bash
-python web_server.py --host 0.0.0.0 --port 8080
+python web_server.py
 ```
 
 Then open:
@@ -82,8 +105,11 @@ http://YOUR_COMPUTER_IP:8080
 ```
 
 The web server includes a WebSocket proxy for the browser client.
-If you enter `127.0.0.1` or `localhost` in the join form, it can also start an embedded local game server automatically.
-If you want the browser client to connect to a separate host, run `server.py` on that host and enter its IP and port in the web UI.
+It now binds to `0.0.0.0` by default, so other devices can reach the browser version as soon as your firewall and network allow port `8080`.
+If you enter `127.0.0.1` or `localhost` in the room form, it can also start an embedded local game server automatically.
+The web UI now supports `Room Name` and `Room Code` too, so browser players can create friend-only rooms the same way as the desktop build.
+The browser page also has a `Play Public Room` button now, and a deployed web host can preload the live public room from environment variables.
+If you want the browser client to connect to a separate host, run `server.py` on that host and enter its IP, port, and room code in the web UI.
 
 ## Controls
 
